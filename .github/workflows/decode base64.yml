@@ -1,0 +1,35 @@
+name: Decode Base64 Message
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you are using
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'  # Use the latest version of Python
+
+    - name: Install Dependencies
+      run: |
+        pip install jq  # jq is not needed in this case; Python will handle JSON parsing
+
+    - name: Decode Base64 message
+      run: |
+        python decode_base64.py
+
+    - name: Commit decoded message
+      run: |
+        git config --local user.email "e4455661@gmail.com"  # Replace with your email
+        git config --local user.name "Siangeze"  # Replace with your name
+        git add decoded_message.json
+        git commit -m "Add decoded message"
+        git push
